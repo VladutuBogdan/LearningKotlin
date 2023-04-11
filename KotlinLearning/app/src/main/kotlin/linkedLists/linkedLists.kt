@@ -98,6 +98,11 @@ fun main() {
             size++
         }
 
+        fun printInReverse(node: Node<T>?) {
+            if (node?.next != null) printInReverse(node.next);
+            println(node?.value);
+        }
+
         override fun toString(): String {
             if (isEmpty()) {
                 return "Empty list"
@@ -118,4 +123,5 @@ fun main() {
     list.pop()
     list.removeLast()
     println(list)
+    list.printInReverse(list.nodeAt(0))
 }
