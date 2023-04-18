@@ -1,4 +1,6 @@
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.consumeEach
 import kotlin.concurrent.thread
 
 fun main() {
@@ -211,4 +213,308 @@ fun main() {
 //    job.cancel();
 //    println("This is some text 2");
 //    Thread.sleep(5000)
+
+    // Handling Exceptions
+//    runBlocking {
+//        val asyncJob = GlobalScope.launch {
+//            println("1. Exception created via launch coroutine")
+//            // Will be printed to the console by
+//            // Thread.defaultUncaughtExceptionHandler
+//            throw IndexOutOfBoundsException()
+//        }
+//        asyncJob.join()
+//        println("2. Joined failed job")
+//        val deferred = GlobalScope.async {
+//            println("3. Exception created via async coroutine")
+//            // Nothing is printed, relying on user to call await
+//            throw ArithmeticException()
+//        }
+//        try {
+//            deferred.await()
+//            println("4. Unreachable, this statement is never executed")
+//        } catch (e: Exception) {
+//            println("5. Caught ${e.javaClass.simpleName}")
+//        }
+//    }
+
+
+//    runBlocking {
+//        val job = GlobalScope.launch {
+//            println("1. Exception created via launch coroutine")
+//            // Will NOT be handled by
+//            // Thread.defaultUncaughtExceptionHandler
+//            // since it is being handled later by `invokeOnCompletion`
+//            throw IndexOutOfBoundsException()
+//        }
+//        // Handle the exception thrown from `launch` coroutine builder
+//        job.invokeOnCompletion { exception ->
+//            println("2. Caught $exception")
+//        }
+//        // This suspends coroutine until this job is complete.
+//        job.join()
+//    }
+
+    // custom exception
+//    runBlocking {
+//        // 1
+//        val exceptionHandler = CoroutineExceptionHandler { _,
+//                                                           exception ->
+//            println("Caught $exception")
+//        }
+//        // 2
+//        val job = GlobalScope.launch(exceptionHandler) {
+//            throw AssertionError("My Custom Assertion Error!")
+//        }
+//        job.join()
+//    }
+
+//    runBlocking {
+//        // Set this to ’true’ to call await on the deferred variable
+//        val callAwaitOnDeferred = true
+//        val deferred = GlobalScope.async {
+//            // This statement will be printed with or without
+//            // a call to await()
+//            println("Throwing exception from async")
+//            throw ArithmeticException("Something Crashed")
+//            // Nothing is printed, relying on a call to await()
+//        }
+//        println("2")
+//        if (callAwaitOnDeferred) {
+//            try {
+//                deferred.await()
+//            } catch (e: ArithmeticException) {
+//                println("Caught ArithmeticException")
+//            }
+//        }
+//    }
+
+//    runBlocking {
+//        // Global Exception Handler
+//        val handler = CoroutineExceptionHandler { _, exception ->
+//            println("Caught $exception with suppressed " +
+//                    // Get the suppressed exception
+//                    "${exception.suppressed?.contentToString()}")
+//        }
+//        // Parent Job
+//        val parentJob = GlobalScope.launch(handler) {
+//            // Child Job 1
+//            launch {
+//                try {
+//                    delay(Long.MAX_VALUE)
+//                } catch (e: Exception) {
+//                    println("${e.javaClass.simpleName} in Child Job 1")
+//                } finally {
+//                    throw ArithmeticException()
+//                }
+//            }
+//            // Child Job 2
+//            launch {
+//                delay(100)
+//                throw IllegalStateException()
+//            }
+//            // Delaying the parentJob
+//            delay(Long.MAX_VALUE)
+//        }
+//        // Wait until parentJob completes
+//        parentJob.join()
+//    }
+
+    // Cancel
+//    runBlocking {
+//        val job = launch {
+//            repeat(1000) { i ->
+//                println("$i. Crunching numbers [Beep.Boop.Beep]...")
+//                delay(500L)
+//            }
+//        }
+//        delay(1300L) // delay a bit
+//        println("main: I am tired of waiting!")
+//        job.cancel() // cancels the job
+//        job.join() // waits for job’s completion
+//        println("main: Now I can quit.")
+//    }
+
+//    runBlocking {
+//        val parentJob = launch {
+//            val childOne = launch {
+//                repeat(1000) { i ->
+//                    println("Child Coroutine 1: " +
+//                            "$i. Crunching numbers [Beep.Boop.Beep]...")
+//                    delay(500L)
+//                }
+//            }
+//            // Handle the exception thrown from `launch`
+//            // coroutine builder
+//            childOne.invokeOnCompletion { exception ->
+//                println("Child One: ${exception?.message}")
+//            }
+//            val childTwo = launch {
+//                repeat(1000) { i ->
+//                    println("Child Coroutine 2: " +
+//                            "$i. Crunching numbers [Beep.Boop.Beep]...")
+//                    delay(500L)
+//                }
+//            }
+//            // Handle the exception thrown from `launch`
+//            // coroutine builder
+//            childTwo.invokeOnCompletion { exception ->
+//                println("Child Two: ${exception?.message}")
+//            }
+//        }
+//        delay(1200L)
+//        println("Calling cancelChildren() on the parentJob")
+//        parentJob.cancelChildren()
+//        println("parentJob isActive: ${parentJob.isActive}")
+//    }
+
+    // Timeout
+//    runBlocking {
+//        withTimeout(1500L) {
+//            repeat(1000) { i ->
+//                println("$i. Crunching numbers [Beep.Boop.Beep]...")
+//                delay(500L)
+//            }
+//        }
+//    }
+
+//    // 1
+//    val list = listOf(1, 2, 3)
+//    // 2
+//    list.filter {
+//        // 3
+//        print("filter, ")
+//        // 4
+//        it > 0
+//        // 5
+//    }.map {
+//        // 6
+//        print("map, ")
+//        // 7
+//    }.forEach {
+//        // 8
+//        print("forEach, ")
+//    }
+
+    // asSequence
+//    val list = listOf(1, 2, 3)
+//    // 1
+//    list.asSequence().filter {
+//        print("filter, ")
+//        it > 0
+//    }.map {
+//        print("map, ")
+//    }.forEach {
+//        print("forEach, ")
+//    }
+
+
+    // sequence
+//    fun sequenceExample() = sequence {
+//        yieldAll(generateSequence(2) { it * 2 })
+//    }
+//    val sequence = sequenceExample().take(10)
+//    // 2
+//    sequence.forEach {
+//        print("$it ")
+//    }
+
+
+    // Channel
+//    val fruitArray = arrayOf("Apple", "Banana", "Pear", "Grapes",
+//        "Strawberry")
+//    val kotlinChannel = Channel<String>(0)
+//    runBlocking {
+//        // 3
+//        GlobalScope.launch {
+//            for (fruit in fruitArray) {
+//                // 4
+//                kotlinChannel.send(fruit)
+//                // 5
+//                if (fruit == "Grapes") {
+//                    // 6
+//                    kotlinChannel.close()
+//                }
+//            }
+//        }
+//        // 7
+//        for (fruit in kotlinChannel) {
+//            println(fruit)
+//        }
+//        // 8
+//        println("Done!")
+//    }
+
+    // send
+//    val fruitArray = arrayOf("Apple", "Banana", "Pear", "Grapes",
+//        "Strawberry")
+//    val kotlinBufferedChannel = Channel<String>(2)
+//    runBlocking {
+//        launch {
+//            for (fruit in fruitArray) {
+//                kotlinBufferedChannel.send(fruit)
+//                println("Produced: $fruit")
+//            }
+//            kotlinBufferedChannel.close()
+//        }
+//        launch {
+//            for (fruit in kotlinBufferedChannel) {
+//                println("Consumed: $fruit")
+//                delay(1000)
+//            }
+//        }
+//    }
+
+    // offer
+//    val fruitArray = arrayOf("Apple", "Banana", "Pear", "Grapes",
+//        "Strawberry")
+//    val kotlinChannel = Channel<String>()
+//    runBlocking {
+//        launch {
+//            for (fruit in fruitArray) {
+//                val wasSent = kotlinChannel.offer(fruit)
+//                if (wasSent) {
+//                    println("Sent: $fruit")
+//                } else {
+//                    println("$fruit wasn’t sent")
+//                }
+//            }
+//            kotlinChannel.close()
+//        }
+//        for (fruit in kotlinChannel) {
+//            println("Received: $fruit")
+//        }
+//        println("Done!")
+//    }
+
+    // many consumers, race condition
+//    // 1
+//    val fruitArray = arrayOf("Apple", "Banana", "Pear", "Grapes",
+//        "Strawberry")
+//    // 2
+//    val kotlinChannel = Channel<String>()
+//    // 3
+//    runBlocking {
+//        // 4 Producer
+//        GlobalScope.launch {
+//            // Send data in channel
+//            kotlinChannel.send(fruitArray[0])
+//        }
+//        // 5 Consumers
+//        GlobalScope.launch {
+//            kotlinChannel.consumeEach { value ->
+//                println("Consumer 1: $value")
+//            }
+//        }
+//        GlobalScope.launch {
+//            kotlinChannel.consumeEach { value ->
+//                println("Consumer 2: $value")
+//            }
+//        }
+//        // 6
+//        println("Press a key to exit...")
+//        readLine()
+//        // 7
+//        kotlinChannel.close()
+//    }
+
 }
