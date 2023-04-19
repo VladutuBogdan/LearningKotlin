@@ -1,6 +1,7 @@
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.*
 import kotlin.concurrent.thread
 
 fun main() {
@@ -517,4 +518,29 @@ fun main() {
 //        kotlinChannel.close()
 //    }
 
+    // flow
+//    val flowOfStrings = flow {
+//        for (number in 0..100) {
+//            emit("Emitting: $number")
+//        }
+//    }
+//
+//    GlobalScope.launch {
+//        flowOfStrings
+//            .map { it.split(" ") }
+//            .map { it.last() }
+//            .onEach { delay(100) }
+//            .flowOn(Dispatchers.Default)
+//            .collect { println(it) }
+//    }
+//    Thread.sleep(1000)
+
+    // Dispatcher + handler
+//    val handler = CoroutineExceptionHandler { _, throwable ->
+//        println(throwable.message)
+//    }
+//
+//    GlobalScope.launch(Dispatchers.IO + handler){
+//        throw RuntimeException("My Runtime Exception: The Darkforce is strong with this one")
+//    }
 }
