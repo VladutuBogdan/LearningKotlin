@@ -543,4 +543,19 @@ fun main() {
 //    GlobalScope.launch(Dispatchers.IO + handler){
 //        throw RuntimeException("My Runtime Exception: The Darkforce is strong with this one")
 //    }
+
+    // combined context
+//    val defaultDispatcher = Dispatchers.Default
+//    val coroutineErrorHandler = CoroutineExceptionHandler{ context, error ->
+//        println("Problems with Coroutine: ${error}") // we just
+//    }
+//    val emptyParentJob = Job()
+//    val combinedContext = defaultDispatcher + coroutineErrorHandler + emptyParentJob
+//    GlobalScope.launch(context = combinedContext) {
+//        delay(4000);
+//        println(Thread.currentThread().name)
+//    }
+//
+//    emptyParentJob.cancel();
+//    Thread.sleep(6000)
 }
