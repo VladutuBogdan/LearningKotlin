@@ -35,6 +35,7 @@ fun initializeViewModel(): QuotesViewModel {
 fun updateUI(viewModel: QuotesViewModel) {
     GlobalScope.launch {
         viewModel.getQuotes().collect{ quotes ->
+            println("Quotes are: $quotes");
             val stringBuilder = StringBuilder()
 
             quotes.forEach { book ->
