@@ -9,10 +9,6 @@ class FakeQuoteDAO {
     private val quotesList = mutableListOf<Quote>();
     private val quotes = MutableStateFlow<List<Quote>>(mutableListOf());
 
-    init {
-        quotes.value = quotesList;
-    }
-
     fun addQuote(quote: Quote) {
         quotesList.add(quote);
         quotes.value = quotesList.map { it };
