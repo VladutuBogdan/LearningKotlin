@@ -2,10 +2,12 @@ package com.example.mvvp_flows.data
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class FakeQuoteDAO {
     private val quotesList = mutableListOf<Quote>();
-    private val quotes = MutableStateFlow<List<Quote>>(listOf());
+    private val quotes = MutableStateFlow<List<Quote>>(mutableListOf());
 
     init {
         quotes.value = quotesList;
@@ -13,9 +15,8 @@ class FakeQuoteDAO {
 
     fun addQuote(quote: Quote) {
         quotesList.add(quote);
-        quotes.value = quotesList;
+        quotes.value = quotesList.map { it };
     }
 
-    fun getQuotes() = quotes as StateFlow<List<Quote>>;
-
+    fun getQuotes() = quotes.asStateFlow();
 }

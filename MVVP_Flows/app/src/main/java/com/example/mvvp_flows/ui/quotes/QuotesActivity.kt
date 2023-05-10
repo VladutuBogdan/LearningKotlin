@@ -26,13 +26,13 @@ class QuotesActivity : AppCompatActivity() {
     setListeners(initializedViewModel)
 }
 
-fun initializeViewModel(): QuotesViewModel {
+private fun initializeViewModel(): QuotesViewModel {
     val quotesRepository = QuoteRepository.getInstance(FakeDatabase.getInstance().quoteDao)
     val factory = QuotesViewModelFactory(quotesRepository)
     return ViewModelProviders.of(this, factory).get(QuotesViewModel::class.java)
 }
 
-fun updateUI(viewModel: QuotesViewModel) {
+private fun updateUI(viewModel: QuotesViewModel) {
     GlobalScope.launch {
         viewModel.getQuotes().collect{ quotes ->
             println("Quotes are: $quotes");
@@ -48,7 +48,7 @@ fun updateUI(viewModel: QuotesViewModel) {
     }
 }
 
-fun setListeners(viewModel: QuotesViewModel) {
+private fun setListeners(viewModel: QuotesViewModel) {
     val addButton = findViewById<Button>(R.id.button_add_quote)
 
     addButton.setOnClickListener {
