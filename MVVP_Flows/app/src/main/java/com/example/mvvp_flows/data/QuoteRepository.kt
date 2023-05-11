@@ -11,7 +11,7 @@ class QuoteRepository private constructor(private val quoteDAO: FakeQuoteDAO){
             }
     }
 
-    fun addQuote(quote: Quote) = quoteDAO.addQuote(quote);
+    suspend fun addQuote(quote: Quote) = quoteDAO.addQuote(quote);
 
     fun getQuotes() = quoteDAO.getQuotes();
 }
