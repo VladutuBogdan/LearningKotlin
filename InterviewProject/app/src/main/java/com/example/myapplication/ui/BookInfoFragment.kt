@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment;
 import coil.compose.AsyncImage
+import com.example.myapplication.R
 import com.example.myapplication.data.Book
 
 class BookInfoFragment: Fragment() {
