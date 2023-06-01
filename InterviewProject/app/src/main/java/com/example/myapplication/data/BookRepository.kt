@@ -1,14 +1,10 @@
 package com.example.myapplication.data
 
-import android.util.Log
-import com.example.myapplication.utils.Utils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+
+import kotlinx.coroutines.flow.StateFlow
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class BookRepository private constructor(private val bookDao: BookDao){
     companion object {
@@ -28,19 +24,34 @@ class BookRepository private constructor(private val bookDao: BookDao){
         }
     }
 
-    private fun addBook(book: Book) = bookDao.addBook(book)
+    private val roomData: StateFlow<List<Book>> = bookDao.getAllBooks();
 
-    fun getBooks() = bookDao.getBooks()
+    suspend fun roomAddBook(book: Book) = bookDao.addBook(book);
 
-    fun getBooksFromApi() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val data = retrofitBuilder.getData().await();
+    suspend fun getBooks(): StateFlow<List<Book>> {
+        val books = roomData.value;
 
-            for (book in data.books) {
-                Log.d(Utils.LOG_D, book.toString())
-            }
+        if (!books.isNullOrEmpty()) {
+            return roomData.value as StateFlow<List<Book>>;
+        } else {
+            val books = getBooksFromApi();
+
+            saveBooksToLocalDatabase(books);
+
+            return books as StateFlow<List<Book>>;
         }
     }
 
-    // TODO: Logica cand sa ia din DB si cand sa ia din API
+    private suspend fun saveBooksToLocalDatabase(books: List<Book>) {
+        // Save books to the local database
+        for (book in books) {
+            roomAddBook(book)
+        }
+    }
+
+    private suspend fun getBooksFromApi(): List<Book> {
+        val data = retrofitBuilder.getData().await();
+
+        return data.books;
+    }
 }

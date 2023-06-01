@@ -1,15 +1,16 @@
 package com.example.myapplication.data
 
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
-class BookDao {
-    private val bookList = mutableListOf<Book>();
-    private val books = MutableStateFlow<List<Book>>(emptyList());
+@Dao
+interface BookDao {
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addBook(book: Book)
 
-    fun addBook(book: Book) {
-        // TODO: Add books in database
-    }
-
-    fun getBooks() = books.asStateFlow();
+    @Query("SELECT * FROM books")
+    fun getAllBooks(): MutableStateFlow<List<Book>>
 }

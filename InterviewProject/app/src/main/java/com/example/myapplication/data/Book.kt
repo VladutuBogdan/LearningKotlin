@@ -1,11 +1,17 @@
 package com.example.myapplication.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+
+@Entity(tableName = "books")
 data class Book (
+    @PrimaryKey
     val title: String,
     val author: String,
-    val isbns: List<String>,
+    @TypeConverters(Converters::class) val isbns: List<String>,
     val wiki: String,
-    val image: Image
+    @TypeConverters(Converters::class) val image: Image
 )
 
 data class Image(
