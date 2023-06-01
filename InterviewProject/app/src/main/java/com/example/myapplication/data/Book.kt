@@ -11,3 +11,7 @@ data class Book (
 data class Image(
     val url: String
 )
+
+data class BookList(
+    val books: List<Book>
+)
