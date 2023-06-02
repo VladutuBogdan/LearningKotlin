@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.myapplication.data.BookDatabase
 import com.example.myapplication.data.BookRepository
 import com.example.myapplication.ui.BooksViewModel
@@ -25,13 +28,15 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel = ViewModelProviders.of(this, booksViewModelFactory).get(BooksViewModel::class.java)
 
-        GlobalScope.launch(Dispatchers.Main) {
-            viewModel.getBooks().collect { books ->
-                setContent {
-                    Surface(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        BooksApplication(books)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getBooks().collect { books ->
+                    setContent {
+                        Surface(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            BooksApplication(books)
+                        }
                     }
                 }
             }

@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Dao
 interface BookDao {
@@ -12,5 +11,5 @@ interface BookDao {
     suspend fun addBook(book: Book)
 
     @Query("SELECT * FROM books")
-    fun getAllBooks(): MutableStateFlow<List<Book>>
+    fun getAllBooks(): List<Book>
 }

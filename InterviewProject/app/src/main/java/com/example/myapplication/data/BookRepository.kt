@@ -1,7 +1,11 @@
 package com.example.myapplication.data
 
 
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,21 +28,19 @@ class BookRepository private constructor(private val bookDao: BookDao){
         }
     }
 
-    private val roomData: StateFlow<List<Book>> = bookDao.getAllBooks();
 
     suspend fun roomAddBook(book: Book) = bookDao.addBook(book);
 
-    suspend fun getBooks(): StateFlow<List<Book>> {
-        val books = roomData.value;
+    suspend fun getBooks(): Flow<List<Book>> {
+        val roomBooks = bookDao.getAllBooks()
 
-        if (!books.isNullOrEmpty()) {
-            return roomData.value as StateFlow<List<Book>>;
+        return if (roomBooks.isNotEmpty()) {
+            flowOf(roomBooks)
         } else {
             val books = getBooksFromApi();
 
             saveBooksToLocalDatabase(books);
-
-            return books as StateFlow<List<Book>>;
+            flowOf(books)
         }
     }
 
