@@ -21,11 +21,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.myapplication.data.Book
+import com.example.myapplication.ui.BooksViewModel
+import com.example.myapplication.utils.Utils
 
 @Composable
-fun BookListItem(book: Book) {
+fun BookListItem(viewModel: BooksViewModel, navController: NavController, book: Book) {
     Button(
         shape = RoundedCornerShape(5),
         colors = ButtonDefaults.buttonColors(
@@ -33,7 +36,8 @@ fun BookListItem(book: Book) {
         ),
         modifier = Modifier.padding(5.dp),
         onClick = {
-        // TODO: SELECT SELECTED BOOK IN STATEFLOW
+            viewModel.setSelectedBook(book)
+            navController.navigate(Utils.AppRoutes.BOOK.route)
     }) {
         Card(
             modifier = Modifier.fillMaxWidth(),

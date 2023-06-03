@@ -13,7 +13,4 @@ interface BookDao {
 
     @Query("SELECT * FROM books")
     fun getAllBooks(): Flow<List<Book>>
-
-    @Query("DELETE FROM books")
-    fun deleteAllBooks()
 }

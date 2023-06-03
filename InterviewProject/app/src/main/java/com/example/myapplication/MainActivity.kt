@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,19 +10,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.data.BookDatabase
 import com.example.myapplication.data.BookRepository
 import com.example.myapplication.ui.BooksViewModel
 import com.example.myapplication.ui.BooksViewModelFactory
 import com.example.myapplication.utils.Utils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // TODO: Use hilt
         val booksRepository = BookRepository.getIstance(BookDatabase.getDatabase(this).BookDao())
         val booksViewModelFactory = BooksViewModelFactory(booksRepository)
@@ -37,7 +36,15 @@ class MainActivity : AppCompatActivity() {
                         Surface(
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            BooksApplication(books)
+                            val navController = rememberNavController()
+                            NavHost(navController, startDestination = Utils.AppRoutes.HOME.route) {
+                                composable("home") {
+                                    BooksApplication(viewModel, navController, books)
+                                }
+                                composable("book") {
+                                    BookInfo(viewModel, navController)
+                                }
+                            }
                         }
                     }
                 }

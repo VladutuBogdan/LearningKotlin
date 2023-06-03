@@ -11,4 +11,8 @@ import kotlinx.coroutines.withContext
 
 class BooksViewModel(private val bookRepository: BookRepository): ViewModel() {
     suspend fun getBooks() = bookRepository.getBooks()
+
+    fun getSelectedBook(): Book = bookRepository.getSelectedBook();
+
+    fun setSelectedBook(book: Book) = bookRepository.setSelectedBook(book);
 }

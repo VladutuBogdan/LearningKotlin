@@ -39,7 +39,14 @@ class BookRepository private constructor(private val bookDao: BookDao){
         }
     }
 
+    private lateinit var selectedBook: Book;
     private val repositoryScope = CoroutineScope(Dispatchers.IO);
+
+    fun getSelectedBook(): Book = selectedBook;
+
+    fun setSelectedBook(book: Book) {
+        selectedBook = book;
+    }
 
     suspend fun roomAddBook(book: Book) = bookDao.addBook(book);
 
