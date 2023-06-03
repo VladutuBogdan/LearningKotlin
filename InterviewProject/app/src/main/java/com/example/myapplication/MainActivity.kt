@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import com.example.myapplication.data.BookDatabase
 import com.example.myapplication.data.BookRepository
 import com.example.myapplication.ui.BooksViewModel
 import com.example.myapplication.ui.BooksViewModelFactory
+import com.example.myapplication.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
