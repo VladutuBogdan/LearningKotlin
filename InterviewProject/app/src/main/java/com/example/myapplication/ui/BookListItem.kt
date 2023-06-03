@@ -26,6 +26,9 @@ import coil.compose.AsyncImage
 import com.example.myapplication.data.Book
 import com.example.myapplication.ui.BooksViewModel
 import com.example.myapplication.utils.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun BookListItem(viewModel: BooksViewModel, navController: NavController, book: Book) {
@@ -34,7 +37,7 @@ fun BookListItem(viewModel: BooksViewModel, navController: NavController, book: 
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.LightGray
         ),
-        modifier = Modifier.padding(5.dp),
+        modifier = Modifier.padding(horizontal = 3.dp),
         onClick = {
             viewModel.setSelectedBook(book)
             navController.navigate(Utils.AppRoutes.BOOK.route)
@@ -62,6 +65,27 @@ fun BookListItem(viewModel: BooksViewModel, navController: NavController, book: 
                 )
             }
         }
+    }
+    Button(
+        shape = RoundedCornerShape(5),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.LightGray
+        ),
+        modifier = Modifier.padding(5.dp),
+        onClick = {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.deleteBook(book)
+            }
+        }) {
+        Text(
+            text = "Delete Book",
+            style = TextStyle(
+                color = Color.Red,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            ),
+            modifier = Modifier.padding(horizontal = 3.dp)
+        )
     }
 }
 

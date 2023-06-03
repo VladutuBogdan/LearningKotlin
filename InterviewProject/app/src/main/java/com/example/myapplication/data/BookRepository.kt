@@ -48,6 +48,8 @@ class BookRepository private constructor(private val bookDao: BookDao){
         selectedBook = book;
     }
 
+    fun deleteBook(book: Book) = bookDao.deleteBook(book.title);
+
     suspend fun roomAddBook(book: Book) = bookDao.addBook(book);
 
     suspend fun getBooks(): StateFlow<List<Book>> {

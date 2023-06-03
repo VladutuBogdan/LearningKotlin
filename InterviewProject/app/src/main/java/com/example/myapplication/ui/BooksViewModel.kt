@@ -15,4 +15,6 @@ class BooksViewModel(private val bookRepository: BookRepository): ViewModel() {
     fun getSelectedBook(): Book = bookRepository.getSelectedBook();
 
     fun setSelectedBook(book: Book) = bookRepository.setSelectedBook(book);
+
+    fun deleteBook(book: Book) =  bookRepository.deleteBook(book)
 }
