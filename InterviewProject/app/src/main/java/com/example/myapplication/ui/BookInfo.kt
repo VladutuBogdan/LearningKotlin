@@ -86,7 +86,7 @@ fun BookInfo(viewModel: BooksViewModel, navController: NavController) {
                 navController.navigate(Utils.AppRoutes.HOME.route)
             }) {
             Text(
-                text = "Go back",
+                text = Utils.AppStrings.GO_BACK.string,
                 style = TextStyle(
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,

@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             val navController = rememberNavController()
                             NavHost(navController, startDestination = Utils.AppRoutes.HOME.route) {
-                                composable("home") {
+                                composable(Utils.AppRoutes.HOME.route) {
                                     BooksApplication(viewModel, navController, books)
                                 }
-                                composable("book") {
+                                composable(Utils.AppRoutes.BOOK.route) {
                                     BookInfo(viewModel, navController)
                                 }
                             }

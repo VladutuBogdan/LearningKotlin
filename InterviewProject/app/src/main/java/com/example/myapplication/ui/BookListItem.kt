@@ -78,7 +78,7 @@ fun BookListItem(viewModel: BooksViewModel, navController: NavController, book: 
             }
         }) {
         Text(
-            text = "Delete Book",
+            text = Utils.AppStrings.DELETE.string,
             style = TextStyle(
                 color = Color.Red,
                 fontWeight = FontWeight.Bold,

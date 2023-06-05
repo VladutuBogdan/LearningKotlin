@@ -14,6 +14,8 @@ abstract class BookDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE: BookDatabase? = null
 
+        private val DATABASE = "book_database"
+
         fun getDatabase(context: Context): BookDatabase{
             val tempInstance = INSTANCE
             if(tempInstance != null){
@@ -23,7 +25,7 @@ abstract class BookDatabase: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     BookDatabase::class.java,
-                    "user_database"
+                    DATABASE
                 ).build()
                 INSTANCE = instance
                 return instance

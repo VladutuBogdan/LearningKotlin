@@ -24,13 +24,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class BookRepository private constructor(private val bookDao: BookDao){
     companion object {
         @Volatile private var istance: BookRepository? = null
-        const val BASE_URL = "https://pastebin.com/raw/";
+        const val BASE_URL = "https://pastebin.com/raw/"
 
         private val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)
             .build()
-            .create(ApiInterface::class.java);
+            .create(ApiInterface::class.java)
 
         fun getIstance(bookDao: BookDao) = istance ?: synchronized(this) {
             istance ?: BookRepository(bookDao).also {
@@ -39,18 +39,18 @@ class BookRepository private constructor(private val bookDao: BookDao){
         }
     }
 
-    private lateinit var selectedBook: Book;
-    private val repositoryScope = CoroutineScope(Dispatchers.IO);
+    private lateinit var selectedBook: Book
+    private val repositoryScope = CoroutineScope(Dispatchers.IO)
 
-    fun getSelectedBook(): Book = selectedBook;
+    fun getSelectedBook(): Book = selectedBook
 
     fun setSelectedBook(book: Book) {
-        selectedBook = book;
+        selectedBook = book
     }
 
-    fun deleteBook(book: Book) = bookDao.deleteBook(book.title);
+    fun deleteBook(book: Book) = bookDao.deleteBook(book.title)
 
-    suspend fun roomAddBook(book: Book) = bookDao.addBook(book);
+    fun roomAddBook(book: Book) = bookDao.addBook(book)
 
     suspend fun getBooks(): StateFlow<List<Book>> {
         val booksList = mutableListOf<Book>()
@@ -75,11 +75,7 @@ class BookRepository private constructor(private val bookDao: BookDao){
         return books.asStateFlow()
     }
 
-
-
-
-
-    private suspend fun saveBooksToLocalDatabase(books: List<Book>) {
+    private fun saveBooksToLocalDatabase(books: List<Book>) {
         // Save books to the local database
         for (book in books) {
             roomAddBook(book)
@@ -87,8 +83,8 @@ class BookRepository private constructor(private val bookDao: BookDao){
     }
 
     private suspend fun getBooksFromApi(): List<Book> {
-        val data = retrofitBuilder.getData().await();
+        val data = retrofitBuilder.getData().await()
 
-        return data.books;
+        return data.books
     }
 }
