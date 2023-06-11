@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.Book
 import com.example.myapplication.data.BookRepository
 import com.example.myapplication.utils.Utils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class BooksViewModel(private val bookRepository: BookRepository): ViewModel() {
+@HiltViewModel
+class BooksViewModel @Inject constructor(private val bookRepository: BookRepository): ViewModel() {
     suspend fun getBooks() = bookRepository.getBooks()
 
     fun getSelectedBook(): Book = bookRepository.getSelectedBook()

@@ -63,7 +63,7 @@ class BookRepository private constructor(private val bookDao: BookDao){
                     booksList.clear()
                     booksList.addAll(roomBooks)
 
-                    books.emit(ArrayList(booksList))
+                    books.value = ArrayList(booksList)
                 } else {
                     Log.d(Utils.LOG_D, "API Request")
                     val apiBooks = getBooksFromApi()
