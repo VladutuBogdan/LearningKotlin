@@ -1,14 +1,9 @@
 package com.example.myapplication.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.Book
 import com.example.myapplication.data.BookRepository
-import com.example.myapplication.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel

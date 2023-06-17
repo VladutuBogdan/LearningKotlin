@@ -5,43 +5,19 @@ import android.util.Log
 import com.example.myapplication.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
 import retrofit2.await
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class BookRepository private constructor(private val bookDao: BookDao){
-    companion object {
-        @Volatile private var istance: BookRepository? = null
-        const val BASE_URL = "https://pastebin.com/raw/"
-
-        private val retrofitBuilder = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL)
-            .build()
-            .create(ApiInterface::class.java)
-
-        fun getIstance(bookDao: BookDao) = istance ?: synchronized(this) {
-            istance ?: BookRepository(bookDao).also {
-                istance = it
-            }
-        }
-    }
-
+class BookRepository @Inject constructor(private val booksDatabaseWrapper: BooksDatabaseWrapper, private val apiInterface: ApiInterface){
     private lateinit var selectedBook: Book
     private val repositoryScope = CoroutineScope(Dispatchers.IO)
 
+    private val bookDao = booksDatabaseWrapper.getBookDao()
     fun getSelectedBook(): Book = selectedBook
 
     fun setSelectedBook(book: Book) {
@@ -83,7 +59,7 @@ class BookRepository private constructor(private val bookDao: BookDao){
     }
 
     private suspend fun getBooksFromApi(): List<Book> {
-        val data = retrofitBuilder.getData().await()
+        val data = apiInterface.getData().await()
 
         return data.books
     }
