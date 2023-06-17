@@ -3,22 +3,18 @@ package com.example.myapplication.hilt
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.ApiInterface
-import com.example.myapplication.data.BookDatabase
 import com.example.myapplication.data.BookRepository
 import com.example.myapplication.data.BooksDatabaseWrapper
 import com.example.myapplication.ui.BooksViewModelFactory
 import com.example.myapplication.utils.Utils
-import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
