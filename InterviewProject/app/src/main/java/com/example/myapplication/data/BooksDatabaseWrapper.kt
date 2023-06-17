@@ -8,7 +8,6 @@ import javax.inject.Singleton
 
 @Singleton
 class BooksDatabaseWrapper @Inject constructor(@ApplicationContext private val app: Context) {
-
     private val database: BookDatabase by lazy {
         createDatabase(app)
     }
@@ -19,7 +18,6 @@ class BooksDatabaseWrapper @Inject constructor(@ApplicationContext private val a
             BookDatabase::class.java,
             BookDatabase.DATABASE
         )
-            .fallbackToDestructiveMigration()
             .build()
     }
 

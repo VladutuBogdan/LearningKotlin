@@ -21,11 +21,6 @@ import javax.inject.Singleton
 @InstallIn(ActivityComponent::class)
 object ActivityModule {
     @Provides
-    fun provideDataBaseWrapper(@ApplicationContext context: Context): BooksDatabaseWrapper {
-        return BooksDatabaseWrapper(context)
-    }
-
-    @Provides
     fun provideBooksRepository(
         booksDatabaseWrapper: BooksDatabaseWrapper,
         apiService: ApiInterface

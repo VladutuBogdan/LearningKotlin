@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import retrofit2.await
 import javax.inject.Inject
 
-class BookRepository @Inject constructor(private val booksDatabaseWrapper: BooksDatabaseWrapper, private val apiInterface: ApiInterface){
+class BookRepository @Inject constructor(booksDatabaseWrapper: BooksDatabaseWrapper, private val apiInterface: ApiInterface){
     private lateinit var selectedBook: Book
     private val repositoryScope = CoroutineScope(Dispatchers.IO)
 
