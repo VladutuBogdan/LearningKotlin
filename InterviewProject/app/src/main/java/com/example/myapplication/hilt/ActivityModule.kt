@@ -1,6 +1,5 @@
 package com.example.myapplication.hilt
 
-import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.ApiInterface
 import com.example.myapplication.data.BookRepository
@@ -11,7 +10,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
